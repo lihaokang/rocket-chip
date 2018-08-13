@@ -32,6 +32,7 @@ class TLBPTWIO(implicit p: Parameters) extends CoreBundle()(p)
   val ptbr = new PTBR().asInput
   val status = new MStatus().asInput
   val pmp = Vec(nPMPs, new PMP).asInput
+  val customCSRs = new CustomCSRs().asInput
 }
 
 class PTWPerfEvents extends Bundle {
@@ -44,6 +45,7 @@ class DatapathPTWIO(implicit p: Parameters) extends CoreBundle()(p)
   val sfence = Valid(new SFenceReq).flip
   val status = new MStatus().asInput
   val pmp = Vec(nPMPs, new PMP).asInput
+  val customCSRs = new CustomCSRs().asInput
   val perf = new PTWPerfEvents().asOutput
 }
 
@@ -236,6 +238,7 @@ class PTW(n: Int)(implicit edge: TLEdgeOut, p: Parameters) extends CoreModule()(
     io.requestor(i).ptbr := io.dpath.ptbr
     io.requestor(i).status := io.dpath.status
     io.requestor(i).pmp := io.dpath.pmp
+    io.requestor(i).customCSRs := io.dpath.customCSRs
   }
 
   // control state machine
